@@ -101,7 +101,7 @@ export default function Home() {
   return (
     <Container size="xl" py="xl">
       <Group position="apart" mb="xl">
-        <Title>BrainCraft</Title>
+        <Title>BrainCraft 🧠</Title>
         <ConnectionStatus isConnected={isConnected} />
       </Group>
       
