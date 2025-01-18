@@ -44,3 +44,7 @@ yarn-error.log*
 *.swo
 .DS_Store
 Thumbs.db
+
+logs/
+logs/ai_service.log
+logs/api_routes.log
