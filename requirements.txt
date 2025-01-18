@@ -1,0 +1,9 @@
+# Core dependencies
+fastapi
+uvicorn
+python-dotenv
+pydantic
+requests
+
+# Additional dependencies
+python-multipart
