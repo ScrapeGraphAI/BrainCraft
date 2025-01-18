@@ -20,6 +20,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
   const [input, setInput] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,20 +30,60 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
     }
   };
 
+  const transcribeAudio = async (audioBase64: string) => {
+    try {
+      setIsTranscribing(true);
+      const response = await fetch('/api/transcribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ audio_base64: audioBase64 }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Transcription failed');
+      }
+
+      const data = await response.json();
+      return data.text;
+    } catch (error) {
+      console.error('Error transcribing audio:', error);
+      throw error;
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
+
   const toggleRecording = async () => {
     if (!isRecording) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const recorder = new MediaRecorder(stream);
+        const chunks: BlobPart[] = [];
         
         recorder.ondataavailable = (event) => {
+          chunks.push(event.data);
+        };
+
+        recorder.onstop = async () => {
+          const blob = new Blob(chunks, { type: 'audio/webm' });
           const reader = new FileReader();
-          reader.onloadend = () => {
+          
+          reader.onloadend = async () => {
             if (typeof reader.result === 'string') {
-              console.log('Audio Base64:', reader.result);
+              try {
+                const base64Audio = reader.result.split(',')[1]; // Remove data URL prefix
+                const transcribedText = await transcribeAudio(base64Audio);
+                setInput(transcribedText);
+                onSendMessage(transcribedText);
+              } catch (error) {
+                console.error('Error processing audio:', error);
+              }
             }
           };
-          reader.readAsDataURL(event.data);
+          
+          reader.readAsDataURL(blob);
         };
 
         recorder.start();
@@ -90,7 +131,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               value={input}
               onChange={(e) => setInput(e.target.value)}
               style={{ flex: 1 }}
-              disabled={isLoading}
+              disabled={isLoading || isTranscribing}
             />
             <Button
               variant="filled"
@@ -98,6 +139,8 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               color={isRecording ? 'red' : 'blue'}
               onClick={toggleRecording}
               type="button"
+              loading={isTranscribing}
+              disabled={isLoading}
             >
               {isRecording ? <FaStop size={14} /> : <FaMicrophone size={14} />}
             </Button>
@@ -105,7 +148,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               type="submit"
               variant="filled"
               size="sm"
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isLoading || isTranscribing}
               loading={isLoading}
             >
               <span style={{ marginRight: '6px' }}>Submit</span>
