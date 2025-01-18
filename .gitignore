@@ -27,6 +27,7 @@ wheels/
 venv/
 .venv/
 logs/
+*.lock
 
 # Next.js
 .next/

@@ -49,6 +49,9 @@ cd ./frontend
 # Install dependencies
 npm install
 
+# Set up environment variables
+cp .env.local.example .env.local
+
 # Start development server
 npm run dev
 ```
@@ -58,15 +61,11 @@ The frontend will be available at `http://localhost:3000`
 ### Terminal 2: Backend Setup
 
 ```bash
-# Navigate to src directory
-cd ./src
+# Navigate to backend directory
+cd ./backend
 
-# Create and activate Conda environment
-conda create -n backend-brainbuilder python=3.11
-conda activate backend-brainbuilder
-
-# Install Python dependencies
-pip install -r requirements.txt
+# Set up the environment
+uv sync
 
 # Set up environment variables
 cp .env.example .env
@@ -74,18 +73,11 @@ cp .env.example .env
 # - MISTRAL_API_KEY: Your Mistral API key
 
 # Start the backend server
-uvicorn src.main:app --reload --port 8000
+uv run uvicorn src.main:app --reload --port 8000
 ```
 
 The backend API will be available at `http://localhost:8000`
 
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-```env
-MISTRAL_API_KEY=your_mistral_api_key_here
-```
 
 ## Usage
 
@@ -97,7 +89,7 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 ## Development
 
 - Frontend: Built with Next.js, TypeScript, and Mantine UI
-- Backend: FastAPI with Mistral AI integration
+- Backend: FastAPI with Mistral AI, OpenAI, and LMNT integration
 - Diagram Rendering: Mermaid.js
 
 ## Contributing

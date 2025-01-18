@@ -12,4 +12,6 @@ langchain-mistralai
 langchain-community
 
 # Additional dependencies
+openai
+lmnt
 python-multipart

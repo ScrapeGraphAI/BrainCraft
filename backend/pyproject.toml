@@ -1,0 +1,29 @@
+[project]
+name = "src"
+version = "0.0.1"
+description = "BrainCraft Backend"
+authors = [
+    { name = "BrainCraft", email = "contact@scrapegraphai.com" }
+]
+
+requires-python = ">=3.10,<4.0"
+
+dependencies = [
+    "fastapi>=0.115.3",
+    "pydantic-settings>=2.7.1",
+    "pydantic>=2.9.2",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+    "uvicorn>=0.34.0",
+    "langchain>=0.1.12",
+    "langchain-mistralai>=0.0.11",
+    "langchain-community>=0.0.28",
+    "openai>=1.14.0",
+    "lmnt>=0.2.0",
+    "python-multipart>=0.0.9",
+    "colorama>=0.4.6",
+]
+
+[build-system]
+requires = ["hatchling==1.26.3"]
+build-backend = "hatchling.build"
