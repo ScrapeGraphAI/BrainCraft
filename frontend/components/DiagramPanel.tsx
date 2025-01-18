@@ -8,12 +8,16 @@ const logger = createLogger('DiagramPanel');
 
 interface DiagramPanelProps {
   code: string;
-  type: string;
+  type?: string;  
 }
 
-// Initialize mermaid with specific configuration
-mermaid.initialize({
-  startOnLoad: false, // Important: we'll manually initialize
+interface MermaidConfig {
+  theme?: string;
+  [key: string]: any;
+}
+
+const defaultConfig = {
+  startOnLoad: false,
   theme: 'default',
   securityLevel: 'loose',
   fontFamily: 'arial',
@@ -32,12 +36,52 @@ mermaid.initialize({
     noteMargin: 10,
     messageMargin: 35
   }
-});
+};
 
-const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type }) => {
+mermaid.initialize(defaultConfig);
+
+const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type = 'flowchart' }) => {  
   const containerRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [diagramId] = useState(() => `mermaid-${Math.random().toString(36).substr(2, 9)}`);
+
+  const parseConfig = (code: string): { config: MermaidConfig | null; diagramCode: string } => {
+    try {
+      const configMatch = code.match(/---\s*\nconfig:\s*([\s\S]*?)\n---\s*\n([\s\S]*)/);
+      
+      if (configMatch) {
+        const [, configYaml, remainingCode] = configMatch;
+        const configLines = configYaml.split('\n').map(line => line.trim());
+        const config: MermaidConfig = {};
+        
+        configLines.forEach(line => {
+          const [key, value] = line.split(':').map(s => s.trim());
+          if (key && value) {
+            config[key] = value;
+          }
+        });
+
+        logger.debug('Parsed Mermaid config', { config });
+        return { config, diagramCode: remainingCode.trim() };
+      }
+    } catch (error) {
+      logger.warn('Error parsing Mermaid config', error as Error);
+    }
+    
+    return { config: null, diagramCode: code };
+  };
+
+  const determineDiagramType = (code: string): string => {
+    const cleanCode = code.toLowerCase().trim();
+    if (cleanCode.startsWith('sequencediagram')) return 'sequence';
+    if (cleanCode.startsWith('classDiagram')) return 'class';
+    if (cleanCode.startsWith('stateDiagram')) return 'state';
+    if (cleanCode.startsWith('erDiagram')) return 'er';
+    if (cleanCode.startsWith('gantt')) return 'gantt';
+    if (cleanCode.startsWith('pie')) return 'pie';
+    if (cleanCode.startsWith('graph') || cleanCode.startsWith('flowchart')) return 'flowchart';
+    return 'flowchart'; 
+  };
 
   useEffect(() => {
     const renderDiagram = async () => {
@@ -50,14 +94,21 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type }) => {
         logger.debug('Starting diagram rendering', { type, codeLength: code.length });
         setError(null);
         
-        // Clean the code by removing any markdown backticks and language identifier
         const cleanCode = code.replace(/\`\`\`mermaid|\`\`\`/g, '').trim();
-        logger.debug('Cleaned Mermaid code', { cleanCode });
+        const { config, diagramCode } = parseConfig(cleanCode);
+        
+        const actualType = type || determineDiagramType(diagramCode);
+        
+        if (config) {
+          logger.debug('Applying custom Mermaid config', { config });
+          await mermaid.initialize({
+            ...defaultConfig,
+            ...config
+          });
+        }
 
-        // Clear previous content
         containerRef.current.innerHTML = '';
 
-        // Create the diagram container
         const diagramContainer = document.createElement('pre');
         diagramContainer.className = 'mermaid';
         diagramContainer.id = diagramId;
@@ -65,22 +116,23 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type }) => {
         diagramContainer.style.background = 'none';
         diagramContainer.style.textAlign = 'center';
         
-        // Insert the clean code
-        diagramContainer.textContent = cleanCode;
+        diagramContainer.textContent = diagramCode;
         
-        // Add to DOM
         containerRef.current.appendChild(diagramContainer);
 
-        // Wait for next frame to ensure DOM is updated
         await new Promise(resolve => requestAnimationFrame(resolve));
 
-        logger.debug('Rendering diagram with Mermaid');
+        logger.debug('Rendering diagram with Mermaid', { 
+          type: actualType,
+          theme: config?.theme || defaultConfig.theme 
+        });
+        
         try {
-          await mermaid.parse(cleanCode); // First verify syntax
+          await mermaid.parse(diagramCode);
           await mermaid.run({
             querySelector: `#${diagramId}`,
           });
-          logger.info('Successfully rendered diagram', { type });
+          logger.info('Successfully rendered diagram', { type: actualType });
         } catch (mermaidError) {
           logger.error('Mermaid rendering error', mermaidError as Error);
           throw mermaidError;
@@ -107,7 +159,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type }) => {
     <Box>
       <Group position="apart" mb="md">
         <Title order={3}>
-          {type.charAt(0).toUpperCase() + type.slice(1)} Diagram
+          {(type || 'Flowchart').charAt(0).toUpperCase() + (type || 'Flowchart').slice(1)} Diagram
         </Title>
         <CopyButton value={code} timeout={2000}>
           {({ copied, copy }) => (

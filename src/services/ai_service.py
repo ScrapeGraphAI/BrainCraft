@@ -37,7 +37,7 @@ class DiagramAgent:
             logger.debug("Setting up Mistral LLM")
             self.llm = ChatMistralAI(
                 api_key=api_key,
-                model="mistral-medium",
+                model="mistral-large",
                 temperature=0.7
             )
             
