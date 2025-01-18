@@ -13,7 +13,7 @@ from ..utils.logger import setup_logger
 
 logger = setup_logger('ai_service')
 
-load_dotenv()
+load_dotenv(override=True)
 
 class AIServiceError(Exception):
     """Custom exception for AI service errors"""
@@ -29,6 +29,7 @@ class DiagramAgent:
     def __init__(self):
         logger.info("Initializing DiagramAgent")
         api_key = os.getenv("MISTRAL_API_KEY")
+        model = os.getenv("MISTRAL_MODEL") if os.getenv("MISTRAL_MODEL") else "mistral-medium"
         if not api_key:
             logger.error("MISTRAL_API_KEY not found in environment variables")
             raise AIServiceError("MISTRAL_API_KEY not found in environment variables")
@@ -37,7 +38,7 @@ class DiagramAgent:
             logger.debug("Setting up Mistral LLM")
             self.llm = ChatMistralAI(
                 api_key=api_key,
-                model="mistral-large",
+                model=model,
                 temperature=0.7
             )
             

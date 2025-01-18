@@ -26,6 +26,7 @@ wheels/
 *.egg
 venv/
 .venv/
+logs/
 
 # Next.js
 .next/
