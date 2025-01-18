@@ -4,6 +4,7 @@ uvicorn
 python-dotenv
 pydantic
 requests
+colorama
 
 # LangChain dependencies
 langchain

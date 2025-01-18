@@ -1,0 +1,129 @@
+2025-01-18 21:10:27,620 - api_routes - DEBUG - Health check requested
+2025-01-18 21:10:44,765 - api_routes - DEBUG - Health check requested
+2025-01-18 21:10:57,758 - api_routes - DEBUG - Health check requested
+2025-01-18 21:11:15,992 - api_routes - DEBUG - Health check requested
+2025-01-18 21:11:27,869 - api_routes - DEBUG - Health check requested
+2025-01-18 21:11:36,444 - api_routes - DEBUG - Health check requested
+2025-01-18 21:11:36,445 - api_routes - DEBUG - Health check requested
+2025-01-18 21:11:51,161 - api_routes - DEBUG - Health check requested
+2025-01-18 21:12:02,792 - api_routes - DEBUG - Health check requested
+2025-01-18 21:12:23,845 - api_routes - DEBUG - Health check requested
+2025-01-18 21:12:35,892 - api_routes - DEBUG - Health check requested
+2025-01-18 21:12:53,131 - api_routes - DEBUG - Health check requested
+2025-01-18 21:14:54,731 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:01,653 - api_routes - [32mINFO[0m - Received chat request: generate a simple prompt...
+2025-01-18 21:15:01,654 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:15:01,655 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:05,319 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:15:07,996 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:07,996 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:22,782 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:28,380 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:15:56,735 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:16:09,427 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:16:29,977 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:16:41,904 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:16:59,237 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:08,299 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:11,668 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:14,384 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:14,384 - api_routes - [32mINFO[0m - Received chat request: generate a simple prompt...
+2025-01-18 21:17:14,384 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:17:17,140 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:18,840 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:17:43,695 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:17:55,428 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:18:16,618 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:18:28,574 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:18:46,199 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:18:57,795 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:19:16,423 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:19:28,332 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:19:39,197 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:05,308 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:09,508 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:18,313 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:18,314 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:21,837 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:25,059 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:28,249 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:20:34,258 - api_routes - [32mINFO[0m - Received chat request: Generate a simple diagram...
+2025-01-18 21:20:34,258 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:20:41,697 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:20:55,368 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:21:06,862 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:21:26,890 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:21:35,027 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:21:58,366 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:22:07,557 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:22:31,406 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:22:48,790 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:22:48,791 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:22:52,524 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:23:08,178 - api_routes - [32mINFO[0m - Received chat request: Generate a simple diagram...
+2025-01-18 21:23:08,178 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:23:13,748 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:23:26,284 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:23:44,030 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:05,375 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:19,230 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:19,230 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:22,897 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:38,953 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:42,444 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:46,130 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:24:54,645 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:25:16,443 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:25:31,987 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:25:54,102 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:06,873 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:06,874 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:10,477 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:41,540 - api_routes - [32mINFO[0m - Received chat request: make me a diagram...
+2025-01-18 21:26:41,540 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:26:41,541 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:46,232 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:26:48,846 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:27:15,818 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:27:31,467 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:27:55,391 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:27:55,392 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:28:24,251 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:28:37,100 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:28:37,101 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:28:40,029 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:29:12,551 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:29:24,338 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:29:46,802 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:29:58,878 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:30:17,308 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:30:35,674 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:30:35,675 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:30:39,459 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:31:12,387 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:31:31,500 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:31:31,501 - api_routes - [32mINFO[0m - Received chat request: What kind of diagram did you have done previusly=...
+2025-01-18 21:31:31,501 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:31:32,993 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:31:54,816 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:32:03,279 - api_routes - [32mINFO[0m - Received chat request: Write me a flowchart instead of thart...
+2025-01-18 21:32:03,279 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:32:03,280 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:32:08,047 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:32:15,843 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:32:24,459 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:32:51,490 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:33:06,170 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:33:06,170 - api_routes - [32mINFO[0m - Received chat request: Draw me a flow chart ìn neo dark...
+2025-01-18 21:33:06,170 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:33:06,171 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:33:09,540 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:33:12,455 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:33:36,639 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:33:36,640 - api_routes - [32mINFO[0m - Received chat request: Draw me a flow chart with the theme neo dark...
+2025-01-18 21:33:36,640 - api_routes - [36mDEBUG[0m - Processing chat request with DiagramAgent
+2025-01-18 21:33:41,600 - api_routes - [32mINFO[0m - Successfully processed chat request
+2025-01-18 21:33:44,257 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:34:12,978 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:34:24,315 - api_routes - [36mDEBUG[0m - Health check requested
+2025-01-18 21:34:51,921 - api_routes - [36mDEBUG[0m - Health check requested

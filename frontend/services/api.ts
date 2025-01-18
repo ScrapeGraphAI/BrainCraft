@@ -1,6 +1,10 @@
 import axios, { AxiosError } from 'axios';
+import { createLogger } from '../utils/logger';
+
+const logger = createLogger('api_service');
 
 // Create axios instance with default config
+logger.info('Initializing API service');
 const api = axios.create({
   baseURL: '/api', // Use relative URL since we're using Next.js rewrites
   headers: {
@@ -14,9 +18,15 @@ export interface ChatRequest {
   message: string;
 }
 
+export interface DiagramData {
+  code: string;
+  type: string;
+}
+
 export interface ChatResponse {
   response: string;
   status: string;
+  diagram?: DiagramData;
 }
 
 // Error handling
@@ -24,19 +34,33 @@ const handleApiError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<any>;
     if (axiosError.response) {
+      logger.error('API request failed with response', undefined, {
+        status: axiosError.response.status,
+        data: axiosError.response.data
+      });
       throw new Error(axiosError.response.data.message || 'Server error');
     } else if (axiosError.request) {
+      logger.error('No response received from API', undefined, {
+        request: axiosError.request
+      });
       throw new Error('No response from server. Please check your connection.');
     }
   }
+  logger.error('Unknown API error occurred', error as Error);
   throw error;
 };
 
 export const chatService = {
   // Send chat message
   sendMessage: async (request: ChatRequest): Promise<ChatResponse> => {
+    logger.info('Sending chat message', { messageLength: request.message.length });
     try {
+      logger.debug('Making POST request to /chat endpoint');
       const response = await api.post<ChatResponse>('/chat', request);
+      logger.debug('Received chat response', {
+        hasResponse: !!response.data.response,
+        hasDiagram: !!response.data.diagram
+      });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -46,12 +70,14 @@ export const chatService = {
 
   // Check backend health
   checkHealth: async (): Promise<boolean> => {
+    logger.debug('Checking API health');
     try {
       const response = await api.get('/health');
-      console.log('Health check response:', response.data); // Debug log
-      return response.data.status === 'healthy';
+      const isHealthy = response.data.status === 'healthy';
+      logger.info('Health check completed', { isHealthy });
+      return isHealthy;
     } catch (error) {
-      console.error('Health check failed:', error);
+      logger.error('Health check failed', error as Error);
       return false;
     }
   }

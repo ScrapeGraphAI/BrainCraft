@@ -24,7 +24,59 @@ body {
 }
 
 .mermaid-container {
-  background: white;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 1rem;
-  border-radius: 8px;
+  background-color: white;
 }
+
+.mermaid {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* Ensure diagram text is readable */
+.mermaid text {
+  font-family: 'Arial', sans-serif !important;
+  font-size: 14px !important;
+}
+
+/* Style diagram edges */
+.mermaid .edge {
+  stroke-width: 2px;
+}
+
+/* Style diagram nodes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  fill: #f4f4f4;
+  stroke: #999;
+  stroke-width: 2px;
+}
+
+/* Style diagram labels */
+.mermaid .label {
+  font-family: 'Arial', sans-serif !important;
+  color: #333;
+}
+
+/* Style node text */
+.mermaid .label text,
+.mermaid .node text {
+  fill: #333 !important;
+  font-size: 14px !important;
+}
+
+/* Add your global styles here */

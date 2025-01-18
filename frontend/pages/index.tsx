@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Container, Grid, Title, Box, Group } from '@mantine/core';
+import { Container, Grid, Title, Box, Group, Text, Paper } from '@mantine/core';
 import ChatInterface from '../components/ChatInterface';
 import DiagramPanel from '../components/DiagramPanel';
 import ConnectionStatus from '../components/ConnectionStatus';
-import { chatService } from '../services/api';
+import { chatService, DiagramData } from '../services/api';
 
 interface Message {
   id: string;
   content: string;
   sender: 'user' | 'assistant';
   timestamp: Date;
+  diagram?: DiagramData;
 }
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [mermaidCode, setMermaidCode] = useState<string>('');
+  const [currentDiagram, setCurrentDiagram] = useState<DiagramData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
 
@@ -62,13 +63,13 @@ export default function Home() {
         content: response.response,
         sender: 'assistant',
         timestamp: new Date(),
+        diagram: response.diagram
       };
       setMessages(prev => [...prev, aiMessage]);
 
-      // Check if response contains Mermaid diagram code
-      const mermaidMatch = response.response.match(/\`\`\`mermaid\n([\s\S]*?)\n\`\`\`/);
-      if (mermaidMatch) {
-        setMermaidCode(mermaidMatch[1]);
+      // Update current diagram if one was generated
+      if (response.diagram) {
+        setCurrentDiagram(response.diagram);
       }
       
     } catch (error) {
@@ -106,16 +107,34 @@ export default function Home() {
       
       <Grid>
         <Grid.Col span={6}>
-          <ChatInterface
-            messages={messages}
-            onSendMessage={handleSendMessage}
-            isLoading={isLoading}
-          />
+          <Paper p="md" style={{ height: '70vh', overflowY: 'auto' }}>
+            <ChatInterface
+              messages={messages}
+              onSendMessage={handleSendMessage}
+              isLoading={isLoading}
+            />
+          </Paper>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Box sx={{ height: '100%', minHeight: 400 }}>
-            <DiagramPanel code={mermaidCode} />
-          </Box>
+          <Paper p="md" style={{ height: '70vh' }}>
+            {currentDiagram ? (
+              <DiagramPanel
+                code={currentDiagram.code}
+                type={currentDiagram.type}
+              />
+            ) : (
+              <Box sx={{ 
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Text color="dimmed">
+                  No diagram generated yet. Try asking me to create one!
+                </Text>
+              </Box>
+            )}
+          </Paper>
         </Grid.Col>
       </Grid>
     </Container>
