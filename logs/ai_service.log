@@ -217,3 +217,10 @@ graph TD;
 
 This is a flowchart that uses...
 2025-01-18 21:33:41,600 - ai_service - [32mINFO[0m - Diagram found in response
+2025-01-18 22:29:07,352 - ai_service - [32mINFO[0m - Initializing DiagramAgent
+2025-01-18 22:29:07,352 - ai_service - [36mDEBUG[0m - Setting up Mistral LLM
+2025-01-18 22:29:07,434 - ai_service - [36mDEBUG[0m - Initializing conversation memory
+2025-01-18 22:29:07,435 - ai_service - [36mDEBUG[0m - Setting up agent tools
+2025-01-18 22:29:07,435 - ai_service - [36mDEBUG[0m - Creating agent with prompt template
+2025-01-18 22:29:07,435 - ai_service - [32mINFO[0m - Creating agent executor
+2025-01-18 22:29:07,445 - ai_service - [32mINFO[0m - DiagramAgent initialized successfully

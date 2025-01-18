@@ -1,74 +1,113 @@
-# BrainCraft: AI-Powered Mermaid Diagram Generator
+# BrainCraft
 
-An intelligent tool that transforms natural language input into beautiful Mermaid diagrams through iterative refinement.
+A powerful AI-powered diagramming tool that helps you create and refine diagrams using natural language.
 
-## 🌟 Features
+## Features
 
-- 🎤 Voice and Text Input Support
-- 🎨 Real-time Mermaid Diagram Generation
-- 🤖 AI-powered Code Generation with Mistral
-- 💬 Interactive Refinement through Conversational AI
-- 📤 Multiple Export Options (PNG, PDF)
+- Generate diagrams from natural language descriptions
+- Support for multiple diagram types (flowcharts, sequence diagrams, class diagrams, etc.)
+- Real-time diagram rendering
+- Interactive diagram refinement
+- Modern and intuitive user interface
+- Theme customization support
 
-## 🚀 Quick Start
+## Prerequisites
 
-1. Clone the repository:
+- Node.js (v16 or higher)
+- Python (3.8 or higher)
+- npm or yarn package manager
+
+## Setup and Running
+
+You can run BrainCraft either locally or using Docker.
+
+### Option 1: Docker Setup (Recommended)
+
 ```bash
-git clone https://github.com/yourusername/BrainCraft.git
-cd BrainCraft
-```
-
-2. Set up environment variables:
-```bash
+# Copy the environment file and configure your API keys
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env and add your MISTRAL_API_KEY
+
+# Build and start the containers
+docker-compose up --build
 ```
 
-3. Install dependencies:
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+
+### Option 2: Local Setup
+
+You'll need to run both the frontend and backend services in separate terminals.
+
+### Terminal 1: Frontend Setup
+
 ```bash
-# Backend
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+# Navigate to frontend directory
+cd ./frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The frontend will be available at `http://localhost:3000`
+
+### Terminal 2: Backend Setup
+
+```bash
+# Navigate to src directory
+cd ./src
+
+# Create and activate Conda environment
+conda create -n backend-brainbuilder python=3.11
+conda activate backend-brainbuilder
+
+# Install Python dependencies
 pip install -r requirements.txt
 
-# Frontend
-cd frontend
-npm install
+# Set up environment variables
+cp .env.example .env
+# Edit the .env file and add your API keys:
+# - MISTRAL_API_KEY: Your Mistral API key
+
+# Start the backend server
+uvicorn src.main:app --reload --port 8000
 ```
 
-4. Run the application:
-```bash
-# Backend (in one terminal)
-uvicorn src.api.main:app --reload
+The backend API will be available at `http://localhost:8000`
 
-# Frontend (in another terminal)
-cd frontend
-npm start
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+MISTRAL_API_KEY=your_mistral_api_key_here
 ```
 
-## 🏗️ Architecture
+## Usage
 
-- Frontend: React.js with Mermaid.js integration
-- Backend: FastAPI with Python
-- AI Components:
-  - Mistral: Natural Language Understanding
-  - Codestral: Mermaid Code Generation
-  - Haystack: Conversational Agent
+1. Open your browser and navigate to `http://localhost:3000`
+2. Enter a description of the diagram you want to create
+3. Click "Generate" to create your diagram
+4. Use the refinement options to modify the diagram as needed
 
-## 🤝 Contributing
+## Development
+
+- Frontend: Built with Next.js, TypeScript, and Mantine UI
+- Backend: FastAPI with Mistral AI integration
+- Diagram Rendering: Mermaid.js
+
+## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Mistral AI](https://mistral.ai/)
-- [Haystack](https://haystack.deepset.ai/)
-- [Mermaid.js](https://mermaid-js.github.io/)
+This project is licensed under the MIT License - see the LICENSE file for details.
