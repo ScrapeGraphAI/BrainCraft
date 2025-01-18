@@ -1,123 +1,129 @@
 from typing import Dict, Any, List
 import os
 from dotenv import load_dotenv
-import requests
+from langchain_mistralai.chat_models import ChatMistralAI
+from langchain.agents import AgentExecutor, create_openai_tools_agent
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.tools import Tool
+from langchain.memory import ConversationBufferMemory
+from langchain.schema import SystemMessage
 
 load_dotenv()
 
+class AIServiceError(Exception):
+    """Custom exception for AI service errors"""
+    pass
+
 class DiagramAgent:
     def __init__(self):
-        self.api_key = os.getenv("MISTRAL_API_KEY")
-        self.api_url = "https://api.mistral.ai/v1/chat/completions"
-        self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-
-    async def _chat_completion(self, messages: List[Dict[str, str]]) -> Dict:
-        """Send a chat completion request to Mistral API"""
-        payload = {
-            "model": "mistral-tiny",
-            "messages": messages
-        }
-        
-        response = requests.post(
-            self.api_url,
-            headers=self.headers,
-            json=payload
-        )
-        
-        if response.status_code != 200:
-            raise Exception(f"Error from Mistral API: {response.text}")
+        api_key = os.getenv("MISTRAL_API_KEY")
+        if not api_key:
+            raise AIServiceError("MISTRAL_API_KEY not found in environment variables")
             
-        return response.json()
+        try:
+            self.llm = ChatMistralAI(
+                api_key=api_key,
+                model="mistral-medium",
+                temperature=0.7
+            )
+            
+            self.memory = ConversationBufferMemory(
+                memory_key="chat_history",
+                return_messages=True
+            )
+            
+            # Define tools
+            self.tools = [
+                Tool(
+                    name="generate_mermaid",
+                    description="Generate a Mermaid.js diagram from a description",
+                    func=self._generate_mermaid_diagram
+                ),
+                Tool(
+                    name="refine_mermaid",
+                    description="Refine an existing Mermaid.js diagram",
+                    func=self._refine_mermaid_diagram
+                )
+            ]
+            
+            # Create the agent with tools
+            prompt = ChatPromptTemplate.from_messages([
+                SystemMessage(content="""You are an expert diagram creation assistant. You can:
+                1. Generate Mermaid.js diagrams from descriptions
+                2. Refine existing diagrams based on feedback
+                3. Explain diagram concepts and syntax
+                
+                Always use the appropriate tools when working with diagrams.
+                When generating diagrams, always wrap the Mermaid code in triple backticks with 'mermaid' language identifier."""),
+                MessagesPlaceholder(variable_name="chat_history"),
+                ("user", "{input}"),
+                MessagesPlaceholder(variable_name="agent_scratchpad")
+            ])
+            
+            self.agent = create_openai_tools_agent(self.llm, self.tools, prompt)
+            self.agent_executor = AgentExecutor(
+                agent=self.agent,
+                tools=self.tools,
+                memory=self.memory,
+                verbose=True
+            )
+        except Exception as e:
+            raise AIServiceError(f"Failed to initialize AI service: {str(e)}")
 
-    async def generate_mermaid_diagram(self, query: str) -> Dict[str, Any]:
-        """Generate a Mermaid diagram based on user description"""
-        messages = [
-            {
-                "role": "system",
-                "content": """You are an expert at creating Mermaid.js diagrams. 
-                Convert the user's description into a valid Mermaid diagram code.
-                Only respond with the Mermaid code, no explanations."""
-            },
-            {
-                "role": "user",
-                "content": query
-            }
-        ]
-        
-        response = await self._chat_completion(messages)
-        mermaid_code = response['choices'][0]['message']['content']
-        
-        return {
-            "mermaid_code": mermaid_code,
-            "status": "success"
-        }
+    def _generate_mermaid_diagram(self, description: str) -> str:
+        """Generate a Mermaid diagram based on description"""
+        try:
+            messages = [
+                {
+                    "role": "system",
+                    "content": "Create a valid Mermaid.js diagram based on the description. Return the diagram code wrapped in triple backticks with 'mermaid' language identifier."
+                },
+                {
+                    "role": "user",
+                    "content": description
+                }
+            ]
+            
+            response = self.llm.invoke(messages)
+            return response.content
+        except Exception as e:
+            raise AIServiceError(f"Failed to generate diagram: {str(e)}")
 
-    async def refine_mermaid_diagram(self, 
-                                   current_code: str, 
-                                   feedback: str) -> Dict[str, Any]:
+    def _refine_mermaid_diagram(self, current_code: str, feedback: str) -> str:
         """Refine an existing Mermaid diagram based on feedback"""
-        messages = [
-            {
-                "role": "system",
-                "content": """You are an expert at refining Mermaid.js diagrams.
-                Given the current diagram code and user feedback, provide an improved version.
-                Only respond with the modified Mermaid code, no explanations."""
-            },
-            {
-                "role": "user",
-                "content": f"Current diagram:\n{current_code}\n\nFeedback: {feedback}"
-            }
-        ]
-        
-        response = await self._chat_completion(messages)
-        refined_code = response['choices'][0]['message']['content']
-        
-        return {
-            "mermaid_code": refined_code,
-            "status": "success"
-        }
-
-    async def chat(self, message: str, 
-                  conversation_history: List[Dict[str, str]] = None) -> Dict[str, Any]:
-        """Handle chat interactions and generate responses"""
-        if conversation_history is None:
-            conversation_history = []
+        try:
+            messages = [
+                {
+                    "role": "system",
+                    "content": "Improve the Mermaid.js diagram based on the feedback. Return the modified diagram code wrapped in triple backticks with 'mermaid' language identifier."
+                },
+                {
+                    "role": "user",
+                    "content": f"Current diagram:\n{current_code}\n\nFeedback: {feedback}"
+                }
+            ]
             
-        messages = [
-            {
-                "role": "system",
-                "content": """You are a helpful assistant specialized in creating and 
-                explaining diagrams. Help users create and modify diagrams using natural language.
-                If the user asks for a diagram, use the generate_mermaid tool."""
-            }
-        ]
-        
-        # Add conversation history
-        messages.extend(conversation_history)
-        
-        # Add current message
-        messages.append({
-            "role": "user",
-            "content": message
-        })
-        
-        response = await self._chat_completion(messages)
-        response_content = response['choices'][0]['message']['content']
-        
-        # Check if we need to generate a diagram
-        if any(keyword in message.lower() 
-               for keyword in ["create", "generate", "draw", "make", "diagram"]):
-            diagram_result = await self.generate_mermaid_diagram(message)
+            response = self.llm.invoke(messages)
+            return response.content
+        except Exception as e:
+            raise AIServiceError(f"Failed to refine diagram: {str(e)}")
+
+    async def chat(self, message: str) -> Dict[str, Any]:
+        """Handle chat interactions using LangChain agent"""
+        try:
+            response = await self.agent_executor.ainvoke({"input": message})
             return {
-                "response": response_content,
-                "mermaid_code": diagram_result["mermaid_code"],
+                "response": response["output"],
                 "status": "success"
             }
-        
-        return {
-            "response": response_content,
-            "status": "success"
-        }
+        except Exception as e:
+            error_message = str(e)
+            if "MISTRAL_API_KEY" in error_message:
+                error_message = "API key configuration error. Please contact support."
+            elif "rate limit" in error_message.lower():
+                error_message = "Too many requests. Please try again in a moment."
+            
+            return {
+                "response": f"Error: {error_message}",
+                "status": "error"
+            }

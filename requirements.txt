@@ -5,5 +5,10 @@ python-dotenv
 pydantic
 requests
 
+# LangChain dependencies
+langchain
+langchain-mistralai
+langchain-community
+
 # Additional dependencies
 python-multipart

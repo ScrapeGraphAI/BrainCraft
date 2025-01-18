@@ -12,16 +12,31 @@ interface Message {
   timestamp: Date;
 }
 
-interface ChatResponse {
-  response: string;
-  mermaid_code?: string;
-  status: string;
-}
-
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [mermaidCode, setMermaidCode] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    // Check connection on mount
+    checkConnection();
+    // Set up periodic connection check
+    const interval = setInterval(checkConnection, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const checkConnection = async () => {
+    try {
+      console.log('Checking connection...'); // Debug log
+      const isHealthy = await chatService.checkHealth();
+      console.log('Connection status:', isHealthy); // Debug log
+      setIsConnected(isHealthy);
+    } catch (error) {
+      console.error('Connection check failed:', error);
+      setIsConnected(false);
+    }
+  };
 
   const handleSendMessage = async (content: string) => {
     try {
@@ -36,16 +51,9 @@ export default function Home() {
       };
       setMessages(prev => [...prev, userMessage]);
 
-      // Convert messages to format expected by backend
-      const conversationHistory = messages.map(msg => ({
-        role: msg.sender,
-        content: msg.content
-      }));
-
       // Call chat API
       const response = await chatService.sendMessage({
-        message: content,
-        conversation_history: conversationHistory
+        message: content
       });
       
       // Add AI response
@@ -57,15 +65,18 @@ export default function Home() {
       };
       setMessages(prev => [...prev, aiMessage]);
 
-      // Update diagram if one was generated
-      if (response.mermaid_code) {
-        setMermaidCode(response.mermaid_code);
+      // Check if response contains Mermaid diagram code
+      const mermaidMatch = response.response.match(/\`\`\`mermaid\n([\s\S]*?)\n\`\`\`/);
+      if (mermaidMatch) {
+        setMermaidCode(mermaidMatch[1]);
       }
+      
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error sending message:', error);
+      // Add error message
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: 'Sorry, there was an error processing your request.',
         sender: 'assistant',
         timestamp: new Date(),
       };
@@ -87,33 +98,26 @@ export default function Home() {
   }, []);
 
   return (
-    <Box style={{ 
-      minHeight: '100vh',
-      backgroundColor: '#f0f2f5',
-      padding: '2rem',
-    }}>
-      <Container fluid>
-        <Group position="apart" mb="xl">
-          <Title order={1} style={{ color: '#1a237e' }}>
-            BrainCraft Diagram Generator
-          </Title>
-          <ConnectionStatus />
-        </Group>
-
-        <Grid style={{ minHeight: 'calc(100vh - 150px)' }}>
-          <Grid.Col span={6} style={{ height: '100%' }}>
-            <ChatInterface
-              messages={messages}
-              onSendMessage={handleSendMessage}
-              isLoading={isLoading}
-            />
-          </Grid.Col>
-
-          <Grid.Col span={6} style={{ height: '100%' }}>
-            <DiagramPanel mermaidCode={mermaidCode} />
-          </Grid.Col>
-        </Grid>
-      </Container>
-    </Box>
+    <Container size="xl" py="xl">
+      <Group position="apart" mb="xl">
+        <Title>BrainCraft</Title>
+        <ConnectionStatus isConnected={isConnected} />
+      </Group>
+      
+      <Grid>
+        <Grid.Col span={6}>
+          <ChatInterface
+            messages={messages}
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+          />
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Box sx={{ height: '100%', minHeight: 400 }}>
+            <DiagramPanel code={mermaidCode} />
+          </Box>
+        </Grid.Col>
+      </Grid>
+    </Container>
   );
 }
