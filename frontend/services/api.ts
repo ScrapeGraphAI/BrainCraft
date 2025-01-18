@@ -29,6 +29,14 @@ export interface ChatResponse {
   diagram?: DiagramData;
 }
 
+export interface SynthesizeRequest {
+  text: string;
+}
+
+export interface SynthesizeResponse {
+  audio_base64: string;
+}
+
 // Error handling
 const handleApiError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
@@ -79,6 +87,20 @@ export const chatService = {
     } catch (error) {
       logger.error('Health check failed', error as Error);
       return false;
+    }
+  },
+
+  // Synthesize text to speech
+  synthesizeSpeech: async (text: string): Promise<string> => {
+    logger.info('Synthesizing speech', { textLength: text.length });
+    try {
+      logger.debug('Making POST request to /synthesize endpoint');
+      const response = await api.post<SynthesizeResponse>('/synthesize', { text });
+      logger.debug('Received synthesize response');
+      return response.data.audio_base64;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
     }
   }
 };

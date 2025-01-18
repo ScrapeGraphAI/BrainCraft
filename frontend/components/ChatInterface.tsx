@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Paper, TextInput, Button, Stack, ScrollArea, Box } from '@mantine/core';
+import { useState, useEffect, useRef } from 'react';
+import { Paper, TextInput, Button, Stack, ScrollArea, Box, Switch } from '@mantine/core';
 import { FaPaperPlane, FaMicrophone, FaStop } from 'react-icons/fa';
 import ChatMessage from './ChatMessage';
+import { chatService } from '../services/api';
 
 interface Message {
   id: string;
@@ -21,6 +22,35 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [isVoiceModeEnabled, setIsVoiceModeEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Initialize audio element
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+    }
+  }, []);
+
+  useEffect(() => {
+    // Play text-to-speech when new assistant message arrives and voice mode is enabled
+    const playLatestMessage = async () => {
+      const latestMessage = messages[messages.length - 1];
+      if (isVoiceModeEnabled && latestMessage && latestMessage.sender === 'assistant') {
+        try {
+          const audio_base64 = await chatService.synthesizeSpeech(latestMessage.content);
+          if (audioRef.current) {
+            audioRef.current.src = `data:audio/wav;base64,${audio_base64}`;
+            await audioRef.current.play();
+          }
+        } catch (error) {
+          console.error('Error playing synthesized speech:', error);
+        }
+      }
+    };
+
+    playLatestMessage();
+  }, [messages, isVoiceModeEnabled]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,7 +155,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
 
       <Box component="form" onSubmit={handleSubmit}>
         <Stack gap="xs">
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <TextInput
               placeholder="Type your message..."
               value={input}
@@ -134,7 +164,6 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               disabled={isLoading || isTranscribing}
             />
             <Button
-              variant="filled"
               size="sm"
               color={isRecording ? 'red' : 'blue'}
               onClick={toggleRecording}
@@ -154,6 +183,14 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               <span style={{ marginRight: '6px' }}>Submit</span>
               <FaPaperPlane size={14} />
             </Button>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Switch
+              checked={isVoiceModeEnabled}
+              onChange={(event) => setIsVoiceModeEnabled(event.currentTarget.checked)}
+              label="Voice Mode"
+              size="sm"
+            />
           </div>
         </Stack>
       </Box>
