@@ -220,6 +220,9 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
           </div>
         </Stack>
       </Box>
+      <Box mt="xs" style={{ textAlign: 'center', fontSize: '0.8rem', color: '#666' }}>
+        Made with ❤️ by <a href="https://scrapegraphai.com" target="_blank" rel="noopener noreferrer" style={{ color: '#228be6', textDecoration: 'none' }}>ScrapeGraphAI</a> Team
+      </Box>
     </Paper>
   );
 }
