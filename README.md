@@ -2,6 +2,7 @@
 
 A powerful AI-powered diagramming tool that helps you create and refine diagrams using natural language.
 
+![demo](assets/demo.gif)
 ## Features
 
 - Generate diagrams from natural language descriptions
