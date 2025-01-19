@@ -26,18 +26,6 @@ interface ChatMessageProps {
 
 export default function ChatMessage({ content, sender, timestamp, diagramCode }: ChatMessageProps) {
   const [showDiagramCode, setShowDiagramCode] = useState(false);
-  const [showDiagram, setShowDiagram] = useState(true);
-
-  // Function to render the diagram
-  const renderDiagram = async (code: string) => {
-    try {
-      const { svg } = await mermaid.render('diagram-' + Math.random(), code);
-      return svg;
-    } catch (error) {
-      console.error('Error rendering diagram:', error);
-      return null;
-    }
-  };
 
   return (
     <Box
@@ -65,16 +53,6 @@ export default function ChatMessage({ content, sender, timestamp, diagramCode }:
                   variant="subtle"
                   size="xs"
                   mt="xs"
-                  onClick={() => setShowDiagram(!showDiagram)}
-                  leftSection={showDiagram ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
-                  style={{ width: 'auto', marginRight: '8px' }}
-                >
-                  {showDiagram ? 'Hide Diagram' : 'Show Diagram'}
-                </Button>
-                <Button
-                  variant="subtle"
-                  size="xs"
-                  mt="xs"
                   onClick={() => setShowDiagramCode(!showDiagramCode)}
                   leftSection={showDiagramCode ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
                   rightSection={<IconCode size={14} />}
@@ -82,16 +60,6 @@ export default function ChatMessage({ content, sender, timestamp, diagramCode }:
                 >
                   {showDiagramCode ? 'Hide Code' : 'Show Code'}
                 </Button>
-                <Collapse in={showDiagram}>
-                  <Box mt="xs" className="mermaid-container">
-                    <div
-                      className="mermaid"
-                      dangerouslySetInnerHTML={{
-                        __html: diagramCode
-                      }}
-                    />
-                  </Box>
-                </Collapse>
                 <Collapse in={showDiagramCode}>
                   <Box mt="xs">
                     <Group justify="space-between" mb="xs">
