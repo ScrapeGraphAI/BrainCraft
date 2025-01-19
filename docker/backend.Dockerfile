@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /app/backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -16,7 +16,7 @@ ADD https://astral.sh/uv/install.sh /uv-installer.sh
 RUN sh /uv-installer.sh && rm /uv-installer.sh
 
 # Ensure the installed binary is on the `PATH`
-ENV PATH="/app/.venv/bin/:$PATH"
+ENV PATH="/root/.local/bin/:$PATH"
 
 # Copy backend files first
 COPY backend/pyproject.toml backend/uv.lock ./
@@ -27,6 +27,8 @@ RUN uv sync --frozen --no-cache
 
 # Copy config files
 COPY backend/.env ./.env
+
+ENV PATH="/app/backend/.venv/bin:$PATH"
 
 # Set Python environment variables
 ENV PYTHONUNBUFFERED=1 \

@@ -21,7 +21,6 @@ wheels/
 *.egg
 venv/
 .venv/
-*.lock
 
 # Next.js
 .next/
