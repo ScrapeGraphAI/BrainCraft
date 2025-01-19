@@ -1,115 +1,113 @@
-# BrainCraft
+<div align="center">
+  <img src="assets/braincraft-logo.png" alt="BrainCraft Logo" width="100"/>
 
-A powerful AI-powered diagramming tool that helps you create and refine diagrams using natural language.
+  # BrainCraft
 
-![demo](assets/demo.gif)
-## Features
+  🧠 Your Personal Brainstorming & Diagramming AI Agent
 
-- Generate diagrams from natural language descriptions
-- Support for multiple diagram types (flowcharts, sequence diagrams, class diagrams, etc.)
-- Real-time diagram rendering
-- Interactive diagram refinement
-- Modern and intuitive user interface
-- Theme customization support
+  [![License: MIT](https://img.shields.io/badge/License-BSD-yellow.svg)](https://opensource.org/licenses/BSD)
+  [![Node.js Version](https://img.shields.io/badge/node-%3E%3D16-brightgreen)](https://nodejs.org)
+  [![Python Version](https://img.shields.io/badge/python-%3E%3D3.10-blue)](https://www.python.org)
+  [![Docker](https://img.shields.io/badge/docker-supported-blue)](https://www.docker.com)
 
-## Prerequisites
+  Transform your ideas into visual diagrams through natural conversation - both text and voice! 🎯
+</div>
+
+## 🌟 Features
+
+- 🤖 **AI-Powered Brainstorming** - Collaborate with an intelligent AI agent to explore and refine your ideas
+- 🗣️ **Voice Interaction** - Hands-free brainstorming with voice commands and AI vocal responses
+- 📊 **Real-time Diagramming** - Watch your ideas transform into diagrams as you speak or type
+- 🔄 **Interactive Refinement** - Instantly update diagrams through natural conversation
+- 📝 **Multiple Diagram Types** - Support for flowcharts, sequence diagrams, class diagrams, and more
+- 🎨 **Modern UI/UX** - Sleek, intuitive interface with customizable themes
+- ⚡ **Real-time Updates** - See your diagrams evolve instantly as you brainstorm
+
+## 🎬 Demo
+
+Watch BrainCraft in action:
+
+![BrainCraft Demo](assets/demo.gif)
+
+## 🚀 Getting Started
+
+### Prerequisites
 
 - Node.js (v16 or higher)
 - Python (3.8 or higher)
 - npm or yarn package manager
 - Docker and Docker Compose (for containerized setup)
 
-## Setup and Running
+### 🐳 Option 1: Docker Setup (Recommended)
 
-You can run BrainCraft either using Docker (recommended) or locally.
-
-### Option 1: Docker Setup (Recommended)
-
-1. First, create the necessary environment files:
+1. Configure environment files:
 ```bash
-# Create and configure backend environment
+# Set up backend environment
 cp backend/.env.example backend/.env
 # Edit backend/.env and add your API keys:
-# - MISTRAL_API_KEY (required)
-# - OPENAI_API_KEY (optional)
-# - LMNT_API_KEY (optional)
+# - MISTRAL_API_KEY (required for AI processing)
+# - OPENAI_API_KEY (optional for additional AI capabilities)
+# - LMNT_API_KEY (required for voice features)
 
-# Create and configure frontend environment
+# Set up frontend environment
 cp frontend/.env.local.example frontend/.env.local
 ```
 
-2. Run Docker Compose from the project root directory:
+2. Launch with Docker Compose:
 ```bash
-# Build and start the containers
 docker compose -f docker/docker-compose.yml up --build
 ```
 
-The application will be available at:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
+🌐 Access the application:
+- Web Interface: http://localhost:3000
+- API Endpoint: http://localhost:8000
 
-To stop the services:
+To stop:
 ```bash
-# Press Ctrl+C in the terminal or run:
 docker compose -f docker/docker-compose.yml down
 ```
 
-### Option 2: Local Setup
+### 💻 Option 2: Local Setup
 
-You'll need to run both the frontend and backend services in separate terminals.
-
-#### Terminal 1: Frontend Setup
-
+#### Frontend Setup
 ```bash
-# Navigate to frontend directory
 cd frontend
-
-# Install dependencies
 npm install
-
-# Set up environment variables
 cp .env.local.example .env.local
-
-# Start development server
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:3000`
-
-#### Terminal 2: Backend Setup
-
+#### Backend Setup
 ```bash
-# Navigate to backend directory
 cd backend
-
-# Set up the environment
 uv sync
-
-# Set up environment variables
 cp .env.example .env
-# Edit the .env file and add your API keys:
-# - MISTRAL_API_KEY: Your Mistral API key
+# Configure API keys in .env:
+# - MISTRAL_API_KEY: For AI processing
+# - LMNT_API_KEY: For voice features
 
-# Start the backend server
 uv run uvicorn src.main:app --reload --port 8000
 ```
 
-The backend API will be available at `http://localhost:8000`
+## 🎯 Usage
 
-## Usage
+1. 🌐 Open BrainCraft in your browser at `http://localhost:3000`
+2. 🎤 Choose between voice or text input mode
+3. 🗣️ Start brainstorming! Describe your ideas naturally
+4. 📊 Watch as your thoughts transform into professional diagrams
+5. 🔄 Refine the diagrams through conversation
+6. 🎨 Customize the appearance to match your preferences
 
-1. Open your browser and navigate to `http://localhost:3000`
-2. Enter a description of the diagram you want to create
-3. Click "Generate" to create your diagram
-4. Use the refinement options to modify the diagram as needed
+## 🛠️ Technology Stack
 
-## Development
+- **Frontend**: Next.js, TypeScript, Mantine UI
+- **Backend**: FastAPI, Mistral AI, LMNT for voice synthesis
+- **Visualization**: Mermaid.js
+- **Containerization**: Docker & Docker Compose
 
-- Frontend: Built with Next.js, TypeScript, and Mantine UI
-- Backend: FastAPI with Mistral AI, OpenAI, and LMNT integration
-- Diagram Rendering: Mermaid.js
+## 🤝 Contributing
 
-## Contributing
+We welcome contributions! Here's how you can help:
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -117,6 +115,10 @@ The backend API will be available at `http://localhost:8000`
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+BrainCraft is open-source software licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Made with ❤️ by [ScrapegraphAI](https://scrapegraphai.com)
