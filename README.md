@@ -100,10 +100,19 @@ uv run uvicorn src.main:app --reload --port 8000
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: Next.js, TypeScript
-- **Backend**: FastAPI, Mistral AI, LMNT for voice synthesis, Whisper for voice transcription
-- **Visualization**: Mermaid.js
+- **Frontend**: Next.js, TypeScript, Mermaid.js for diagramming
+- **Backend**: FastAPI, [Mistral AI](https://mistral.ai/) for LLM, [LMNT](https://www.lmnt.com/) for voice synthesis, [OpenAI](https://openai.com/) Whisper for voice transcription and [Langchain](https://www.langchain.com/) for agentic workflow
 - **Containerization**: Docker & Docker Compose
+
+## 🏆 Hackathon Submission
+
+<div align="center">
+  <a href="https://techberlin.io/">
+    <img src="assets/code-berlin-hackathon-banner.png" alt="Tech: Berlin Hackathon Banner" width="400"/>
+  </a>
+</div>
+
+This project was created as part of the **Tech: Berlin** hackathon. We aimed to revolutionize the way people brainstorm and visualize their ideas by combining the power of AI, voice interaction, and real-time diagramming. Our solution enables a more natural and intuitive way to create and refine diagrams, making the brainstorming process more efficient and enjoyable.
 
 ## 🤝 Contributing
 
@@ -118,16 +127,6 @@ We welcome contributions! Here's how you can help:
 ## 📄 License
 
 BrainCraft is open-source software licensed under the BSD-3-Clause License. See the [LICENSE](LICENSE) file for details.
-
-## 🏆 Hackathon Submission
-
-<div align="center">
-  <a href="https://techberlin.io/">
-    <img src="assets/code-berlin-hackathon-banner.png" alt="Tech: Berlin Hackathon Banner" width="400"/>
-  </a>
-</div>
-
-This project was created as part of the **Tech: Berlin** hackathon. We aimed to revolutionize the way people brainstorm and visualize their ideas by combining the power of AI, voice interaction, and real-time diagramming. Our solution enables a more natural and intuitive way to create and refine diagrams, making the brainstorming process more efficient and enjoyable.
 
 ---
 
