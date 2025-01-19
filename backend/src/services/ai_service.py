@@ -74,7 +74,7 @@ class DiagramAgent:
                 Always use the appropriate tools when working with diagrams.
                 When generating diagrams, follow these rules:
                 1. Always wrap Mermaid code in triple backticks with 'mermaid' language identifier
-                2. Provide a brief explanation of the diagram
+                2. Provide a brief explanation of the diagram, max 100 words, make it conversational, friendly but professional
                 3. Specify the type of diagram (e.g., flowchart, sequence, class, etc.)"""),
                 MessagesPlaceholder(variable_name="chat_history"),
                 ("user", "{input}"),

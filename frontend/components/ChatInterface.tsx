@@ -23,6 +23,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [isVoiceModeEnabled, setIsVoiceModeEnabled] = useState(false);
+  const [voiceModeEnabledTime, setVoiceModeEnabledTime] = useState<Date | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -36,7 +37,13 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
     // Play text-to-speech when new assistant message arrives and voice mode is enabled
     const playLatestMessage = async () => {
       const latestMessage = messages[messages.length - 1];
-      if (isVoiceModeEnabled && latestMessage && latestMessage.sender === 'assistant') {
+      if (
+        isVoiceModeEnabled && 
+        latestMessage && 
+        latestMessage.sender === 'assistant' && 
+        voiceModeEnabledTime && 
+        latestMessage.timestamp > voiceModeEnabledTime
+      ) {
         try {
           const audio_base64 = await chatService.synthesizeSpeech(latestMessage.content);
           if (audioRef.current) {
@@ -50,7 +57,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
     };
 
     playLatestMessage();
-  }, [messages, isVoiceModeEnabled]);
+  }, [messages, isVoiceModeEnabled, voiceModeEnabledTime]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,9 +92,19 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
     }
   };
 
+  const stopAudioPlayback = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
+
   const toggleRecording = async () => {
     if (!isRecording) {
       try {
+        // Stop any playing audio before starting recording
+        stopAudioPlayback();
+        
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const recorder = new MediaRecorder(stream);
         const chunks: BlobPart[] = [];
@@ -187,7 +204,14 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Switch
               checked={isVoiceModeEnabled}
-              onChange={(event) => setIsVoiceModeEnabled(event.currentTarget.checked)}
+              onChange={(event) => {
+                const isEnabled = event.currentTarget.checked;
+                setIsVoiceModeEnabled(isEnabled);
+                setVoiceModeEnabledTime(isEnabled ? new Date() : null);
+                if (!isEnabled) {
+                  stopAudioPlayback();
+                }
+              }}
               label="Voice Mode"
               size="sm"
             />
