@@ -34,7 +34,7 @@ Watch BrainCraft in action:
 ### Prerequisites
 
 - Node.js (v16 or higher)
-- Python (3.8 or higher)
+- Python (3.10 or higher)
 - npm or yarn package manager
 - Docker and Docker Compose (for containerized setup)
 
@@ -118,6 +118,16 @@ We welcome contributions! Here's how you can help:
 ## 📄 License
 
 BrainCraft is open-source software licensed under the BSD-3-Clause License. See the [LICENSE](LICENSE) file for details.
+
+## 🏆 Hackathon Submission
+
+<div align="center">
+  <a href="https://techberlin.io/">
+    <img src="assets/code-berlin-hackathon-banner.png" alt="Tech: Berlin Hackathon Banner" width="400"/>
+  </a>
+</div>
+
+This project was created as part of the **Tech: Berlin** hackathon. We aimed to revolutionize the way people brainstorm and visualize their ideas by combining the power of AI, voice interaction, and real-time diagramming. Our solution enables a more natural and intuitive way to create and refine diagrams, making the brainstorming process more efficient and enjoyable.
 
 ---
 
