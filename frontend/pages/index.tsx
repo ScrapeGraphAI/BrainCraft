@@ -10,7 +10,7 @@ interface Message {
   content: string;
   sender: 'user' | 'assistant';
   timestamp: Date;
-  diagram?: DiagramData;
+  diagramCode?: string;
 }
 
 export default function Home() {
@@ -63,7 +63,7 @@ export default function Home() {
         content: response.response,
         sender: 'assistant',
         timestamp: new Date(),
-        diagram: response.diagram
+        diagramCode: response.diagram?.code
       };
       setMessages(prev => [...prev, aiMessage]);
 
@@ -100,7 +100,7 @@ export default function Home() {
 
   return (
     <Container size="xl" py="xl">
-      <Group position="apart" mb="xl">
+      <Group mb="xl">
         <Title>BrainCraft 🧠</Title>
         <ConnectionStatus isConnected={isConnected} />
       </Group>
@@ -123,7 +123,7 @@ export default function Home() {
                 type={currentDiagram.type}
               />
             ) : (
-              <Box sx={{ 
+              <Box style={{ 
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',

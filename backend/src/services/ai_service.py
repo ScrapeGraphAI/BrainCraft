@@ -75,7 +75,12 @@ class DiagramAgent:
                 When generating diagrams, follow these rules:
                 1. Always wrap Mermaid code in triple backticks with 'mermaid' language identifier
                 2. Provide a brief explanation of the diagram, make it conversational and friendly, max 100 words
-                3. Specify the type of diagram (e.g., flowchart, sequence, class, etc.)"""),
+                3. Specify the type of diagram (e.g., flowchart, sequence, class, etc.)
+                4. For emoji support:
+                   - Use Unicode emojis directly in node labels
+                   - Always wrap labels containing emojis in double quotes
+                   - Do not use them as node labels, only as text inside nodes
+                """),
                 MessagesPlaceholder(variable_name="chat_history"),
                 ("user", "{input}"),
                 MessagesPlaceholder(variable_name="agent_scratchpad")

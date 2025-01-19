@@ -9,6 +9,7 @@ interface Message {
   content: string;
   sender: 'user' | 'assistant';
   timestamp: Date;
+  diagramCode?: string;
 }
 
 interface ChatInterfaceProps {
@@ -165,6 +166,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading = fal
               content={message.content}
               sender={message.sender}
               timestamp={message.timestamp}
+              diagramCode={message.diagramCode}
             />
           ))}
         </Stack>
