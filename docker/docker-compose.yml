@@ -13,10 +13,10 @@ services:
     networks:
       - braincraft-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 10s
       timeout: 10s
-      retries: 3
+      retries: 10
 
   frontend:
     build:

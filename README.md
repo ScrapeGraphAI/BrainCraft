@@ -55,7 +55,7 @@ cp frontend/.env.local.example frontend/.env.local
 
 2. Launch with Docker Compose:
 ```bash
-docker compose -f docker/docker-compose.yml up --build
+docker compose -f docker/docker-compose.yml up
 ```
 
 🌐 Access the application:
