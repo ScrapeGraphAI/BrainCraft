@@ -11,19 +11,40 @@ interface DiagramPanelProps {
   type?: string;  
 }
 
+interface FlowchartConfig {
+  htmlLabels: boolean;
+  curve: 'basis' | 'linear' | 'cardinal';
+}
+
+interface SequenceConfig {
+  diagramMarginX: number;
+  diagramMarginY: number;
+  actorMargin: number;
+  width: number;
+  height: number;
+  boxMargin: number;
+  boxTextMargin: number;
+  noteMargin: number;
+  messageMargin: number;
+}
+
 interface MermaidConfig {
-  theme?: string;
-  [key: string]: any;
+  theme?: 'default' | 'base' | 'dark' | 'forest' | 'neutral' | 'null';
+  securityLevel?: 'loose' | 'strict' | 'antiscript' | 'sandbox';
+  startOnLoad?: boolean;
+  fontFamily?: string;
+  flowchart?: FlowchartConfig;
+  sequence?: SequenceConfig;
 }
 
 const defaultConfig = {
   startOnLoad: false,
-  theme: 'default',
-  securityLevel: 'loose',
+  theme: 'default' as const,
+  securityLevel: 'loose' as const,
   fontFamily: 'arial',
   flowchart: {
     htmlLabels: true,
-    curve: 'basis'
+    curve: 'basis' as const
   },
   sequence: {
     diagramMarginX: 50,
@@ -157,7 +178,7 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type = 'flowchart' })
 
   return (
     <Box>
-      <Group position="apart" mb="md">
+      <Group justify="space-between" mb="md">
         <Title order={3}>
           {(type || 'Flowchart').charAt(0).toUpperCase() + (type || 'Flowchart').slice(1)} Diagram
         </Title>
@@ -195,39 +216,6 @@ const DiagramPanel: React.FC<DiagramPanelProps> = ({ code, type = 'flowchart' })
             }} 
           />
         )}
-      </Paper>
-
-      <Paper mt="md" p="xs" withBorder>
-        <Group position="apart">
-          <Text size="sm" color="dimmed">Diagram Code</Text>
-          <CopyButton value={code} timeout={2000}>
-            {({ copied, copy }) => (
-              <ActionIcon 
-                size="sm" 
-                color={copied ? 'teal' : 'gray'} 
-                onClick={() => {
-                  copy();
-                  handleCopy(copied);
-                }}
-              >
-                {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-              </ActionIcon>
-            )}
-          </CopyButton>
-        </Group>
-        <Box
-          component="pre"
-          mt="xs"
-          sx={(theme) => ({
-            backgroundColor: theme.colors.gray[0],
-            padding: theme.spacing.xs,
-            borderRadius: theme.radius.sm,
-            fontSize: '0.85rem',
-            overflowX: 'auto'
-          })}
-        >
-          <code>{code}</code>
-        </Box>
       </Paper>
     </Box>
   );
