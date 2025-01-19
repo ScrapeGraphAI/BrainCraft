@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/braincraft-logo.png" alt="BrainCraft Logo" width="100"/>
+  <img src="assets/braincraft-logo.png" alt="BrainCraft Logo" width="200"/>
 
   # BrainCraft
 
@@ -117,7 +117,7 @@ We welcome contributions! Here's how you can help:
 
 ## 📄 License
 
-BrainCraft is open-source software licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+BrainCraft is open-source software licensed under the BSD-3-Clause License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
