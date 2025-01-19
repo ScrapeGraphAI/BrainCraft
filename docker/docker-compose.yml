@@ -1,20 +1,14 @@
-version: '3.8'
-
 services:
   backend:
     build:
-      context: .
-      dockerfile: backend.Dockerfile
+      context: ../
+      dockerfile: docker/backend.Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - FRONTEND_URL=http://frontend:3000
-      - APP_ENV=development
-      - DEBUG=True
     env_file:
-      - .env
+      - ../backend/.env
     volumes:
-      - ./src:/app/src
+      - ../backend:/app
     networks:
       - braincraft-network
     healthcheck:
@@ -25,17 +19,19 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: frontend.Dockerfile
+      context: ../
+      dockerfile: docker/frontend.Dockerfile
     ports:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_BACKEND_URL=http://backend:8000
+    env_file:
+      - ../frontend/.env.local
     depends_on:
       backend:
         condition: service_healthy
     volumes:
-      - ./frontend:/app
+      - ../frontend:/app
       - /app/node_modules
       - /app/.next
     networks:

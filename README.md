@@ -16,35 +16,52 @@ A powerful AI-powered diagramming tool that helps you create and refine diagrams
 - Node.js (v16 or higher)
 - Python (3.8 or higher)
 - npm or yarn package manager
+- Docker and Docker Compose (for containerized setup)
 
 ## Setup and Running
 
-You can run BrainCraft either locally or using Docker.
+You can run BrainCraft either using Docker (recommended) or locally.
 
 ### Option 1: Docker Setup (Recommended)
 
+1. First, create the necessary environment files:
 ```bash
-# Copy the environment file and configure your API keys
-cp .env.example .env
-# Edit .env and add your MISTRAL_API_KEY
+# Create and configure backend environment
+cp backend/.env.example backend/.env
+# Edit backend/.env and add your API keys:
+# - MISTRAL_API_KEY (required)
+# - OPENAI_API_KEY (optional)
+# - LMNT_API_KEY (optional)
 
+# Create and configure frontend environment
+cp frontend/.env.local.example frontend/.env.local
+```
+
+2. Run Docker Compose from the project root directory:
+```bash
 # Build and start the containers
-docker-compose up --build
+docker compose -f docker/docker-compose.yml up --build
 ```
 
 The application will be available at:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 
+To stop the services:
+```bash
+# Press Ctrl+C in the terminal or run:
+docker compose -f docker/docker-compose.yml down
+```
+
 ### Option 2: Local Setup
 
 You'll need to run both the frontend and backend services in separate terminals.
 
-### Terminal 1: Frontend Setup
+#### Terminal 1: Frontend Setup
 
 ```bash
 # Navigate to frontend directory
-cd ./frontend
+cd frontend
 
 # Install dependencies
 npm install
@@ -58,11 +75,11 @@ npm run dev
 
 The frontend will be available at `http://localhost:3000`
 
-### Terminal 2: Backend Setup
+#### Terminal 2: Backend Setup
 
 ```bash
 # Navigate to backend directory
-cd ./backend
+cd backend
 
 # Set up the environment
 uv sync
@@ -77,7 +94,6 @@ uv run uvicorn src.main:app --reload --port 8000
 ```
 
 The backend API will be available at `http://localhost:8000`
-
 
 ## Usage
 
