@@ -100,8 +100,8 @@ uv run uvicorn src.main:app --reload --port 8000
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: Next.js, TypeScript, Mantine UI
-- **Backend**: FastAPI, Mistral AI, LMNT for voice synthesis
+- **Frontend**: Next.js, TypeScript
+- **Backend**: FastAPI, Mistral AI, LMNT for voice synthesis, Whisper for voice transcription
 - **Visualization**: Mermaid.js
 - **Containerization**: Docker & Docker Compose
 
